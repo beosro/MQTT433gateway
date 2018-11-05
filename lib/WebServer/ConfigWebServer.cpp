@@ -147,7 +147,9 @@ void ConfigWebServer::onSystemCommand() {
 
   for (const auto& systemCommandHandler : systemCommandHandlers) {
     if (systemCommandHandler.command == request[F("command")]) {
-      server.send_P(200, TEXT_PLAIN, PSTR("Run command!"));
+      String result;
+      request.printTo(result);
+      server.send(200, TEXT_PLAIN, result);
       systemCommandHandler.cb();
       return;
     }
